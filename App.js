@@ -11,8 +11,7 @@ import realTime from "./Routes/realTime.js";
 import "./database.js"
 import realTimeChat from "./Routes/Chat.js";
 import cartView from "./Routes/cartView.js";
-import viewRouter from "./Routes/views.router.js"
-import sessionRouter from "./Routes/sessions.router.js"
+import sessionRouter from "./Routes/sessions.js"
 
 
 const MONGO = "mongodb+srv://ramses:iddqdq12@eshop.hdewcog.mongodb.net/Eshop?retryWrites=true&w=majority";
@@ -48,7 +47,7 @@ app.use(session({
   resave:false,
   saveUninitialized:false
 }));
-app.use('/', viewRouter);
+//app.use('/', viewRouter);
 app.use('/api/session', sessionRouter);
 //websocket
 app.use("/realTimeProducts", realTime);

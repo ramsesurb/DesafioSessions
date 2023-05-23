@@ -5,7 +5,27 @@ import productoModel from "../Models/mongo.js";
 const productos = new ProductManagerMongo("../Controllers/ProductManagerMongo.js");
 const staticProd = Router();
 
-staticProd.get("/", async (req, res) => {
+const publicAcces = (req,res,next) =>{
+  if(req.session.user) return res.redirect('/');
+  next();
+}
+
+const privateAcces = (req,res,next)=>{
+  if(!req.session.user) return res.redirect('/');
+  next();
+}
+
+staticProd.get('/register', publicAcces, (req,res)=>{
+  res.render('register')
+})
+
+staticProd.get('/', publicAcces, (req,res)=>{
+  res.render('login')
+})
+
+
+
+staticProd.get("/prods",  privateAcces, async (req, res) => {
   const { page = 1, limit: queryLimit, sort, descripcion } = req.query;
 
   // Obtener los productos paginados de Mongoose
@@ -35,7 +55,8 @@ staticProd.get("/", async (req, res) => {
     hasPrevPage,
     hasNextPage,
     prevPage,
-    nextPage
+    nextPage,
+    user: req.session.user
   });
 });
 

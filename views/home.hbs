@@ -4,7 +4,18 @@
     </div>
 </div>
  <br>
+<div class="card border border-dark border-3 rounded">
+    <div class="card-body">
+    <h1>Bienvenido!</h1>
+    <p>{{user.name}}</p>
+    <p>{{user.email}}</p>
+    
 
+   
+    <a href="/api/session/logout" class="btn btn-primary">Salir</a>
+    
+    </div>
+</div>
  <div class="row container  mt-4 justify-content-center">
     {{#if productos}}
      {{#each productos}}
