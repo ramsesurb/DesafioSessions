@@ -1,25 +1,24 @@
 import { Router } from 'express';
-import userModel from '../models/User.model.js';
+import userModel from '../models/user.js';
 
 const router = Router();
 
 router.post('/register', async (req, res) =>{
 
-    const {first_name, last_name, email, age, password} = req.body;
+    const {first_name, last_name, email, rol, age, password} = req.body;
 
     const exist = await userModel.findOne({email});
     if(exist){
         return res.status(400).send({status:"error", error:"User already exists"});
     }
     const user = {
-        first_name, last_name, email, age, password
+        first_name, last_name, email, rol, age, password
     };
 
     const result = await userModel.create(user);
     res.send({status:"succes", message:"User registered"});
 
 })
-
 router.post('/login', async (req,res)=>{
     const { email, password } = req.body;
     const user = await userModel.findOne({email,password})
@@ -31,7 +30,9 @@ router.post('/login', async (req,res)=>{
     req.session.user = {
         name: `${user.first_name} ${user.last_name}`,
         email: user.email,
-        age: user.age
+        rol: user.rol,
+        age: user.age,
+        
     }
     res.send({status:"success", payload:req.res.user, message:"Primer logueo!!"})
     
